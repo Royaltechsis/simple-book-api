@@ -7,19 +7,19 @@ exports.createBook = async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     const { title, author, description, category, link } = req.body;
-    if (!req.file) {
-      return res.status(400).json({ error: 'Cover image is required' });
-    }
-    const book = new Book({
+    const bookData = {
       title,
       author,
       description,
       category,
-      link,
-      coverImage: req.file.buffer,
-      coverImageType: req.file.mimetype
+      link
       // addedDate is set automatically
-    });
+    };
+    if (req.file) {
+      bookData.coverImage = req.file.buffer;
+      bookData.coverImageType = req.file.mimetype;
+    }
+    const book = new Book(bookData);
     await book.save();
     res.status(201).json({ message: 'Book created', book });
   } catch (err) {
