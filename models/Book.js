@@ -6,7 +6,7 @@ const BookSchema = new mongoose.Schema({
   description: { type: String, required: false },
   category: { type: String, required: true },
   link: { type: String, required: true }, // Google Drive link
-  coverImage: { type: Buffer, required: true }, // Store image as binary
+  coverImage: { type: Buffer, required: false}, // Store image as binary
   coverImageType: { type: String, required: false }, // e.g., 'image/png'
   addedDate: { type: Date, default: Date.now }
 });
