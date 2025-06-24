@@ -6,7 +6,7 @@ exports.createBook = async (req, res) => {
     if (!req.body || !req.body.title) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const { title, author, description, category, link, addedDate, tags } = req.body;
+    const { title, author, description, category, link } = req.body;
     if (!req.file) {
       return res.status(400).json({ error: 'Cover image is required' });
     }
@@ -17,9 +17,8 @@ exports.createBook = async (req, res) => {
       category,
       link,
       coverImage: req.file.buffer,
-      coverImageType: req.file.mimetype,
-      addedDate: new Date(addedDate),
-      tags: typeof tags === 'string' ? JSON.parse(tags) : tags
+      coverImageType: req.file.mimetype
+      // addedDate is set automatically
     });
     await book.save();
     res.status(201).json({ message: 'Book created', book });
@@ -55,15 +54,13 @@ exports.getBookById = async (req, res) => {
 // Update a book
 exports.updateBook = async (req, res) => {
   try {
-    const { title, author, description, category, link, addedDate, tags } = req.body;
+    const { title, author, description, category, link } = req.body;
     const updateData = {
       title,
       author,
       description,
       category,
-      link,
-      addedDate: addedDate ? new Date(addedDate) : undefined,
-      tags: tags ? (typeof tags === 'string' ? JSON.parse(tags) : tags) : undefined
+      link
     };
     Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
     if (req.file) {

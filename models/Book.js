@@ -7,8 +7,8 @@ const BookSchema = new mongoose.Schema({
   category: { type: String, required: true },
   link: { type: String, required: true }, // Google Drive link
   coverImage: { type: Buffer, required: true }, // Store image as binary
-  coverImageType: { type: String, required: true }, // e.g., 'image/png'
-  tags: [{ type: String, required: false}]
+  coverImageType: { type: String, required: false }, // e.g., 'image/png'
+  addedDate: { type: Date, default: Date.now }
 });
 
 BookSchema.virtual('coverImageUrl').get(function() {
